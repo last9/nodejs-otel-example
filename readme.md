@@ -61,6 +61,55 @@ This will start the application and begin exporting metrics at a 15-second inter
 
 Each gauge is associated with unique `workflow_id` and `customer_id` attributes.
 
+Here's the updated section of the README that reflects the changes for Docker and Docker Compose setup:
+
+---
+
+## Docker and Docker Compose Setup
+
+This application is configured to be run in a Docker container, making the setup and deployment process consistent and
+isolated across different environments.
+
+### Building with Docker
+
+1. **Build the Docker Image**:
+   Navigate to the directory containing the Dockerfile and run:
+   ```bash
+   docker build -t your-app-name .
+   ```
+   Replace `your-app-name` with the desired name for your Docker image.
+
+2. **Run the Docker Container**:
+   After building the image, start your application by running:
+   ```bash
+   docker run -p 3000:3000 your-app-name
+   ```
+
+### Using Docker Compose
+
+The application can also be run using Docker Compose, which simplifies the process of configuring and launching the
+container, especially when dealing with environment variables and port mappings.
+
+1. **Start the Application**:
+   Use Docker Compose to build and start the application:
+   ```bash
+   docker-compose up --build
+   ```
+
+2. **Stop the Application**:
+   To stop and remove the containers, networks, and volumes created by `up`, use:
+   ```bash
+   docker-compose down
+   ```
+
+### Configuration
+
+- The `docker-compose.yaml` file contains environment variables that are crucial for the application's execution. These
+  variables are set as per the application's requirements and should be modified if necessary.
+- Ensure the OTLP endpoint (`OTLP_ENDPOINT`) is correctly set to point to your OpenTelemetry collector.
+
+---
+
 ## Note
 
 This application is for demonstration purposes and may require adjustments for production use. Ensure the OpenTelemetry
