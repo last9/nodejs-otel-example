@@ -13,13 +13,13 @@ const {
 const os = require('os');
 const {v4: uuidv4} = require('uuid');
 
-const workflowIDCount = process.env('WORKFLOW_ID_COUNT');
-const customerIDCount = process.env('CUSTOMER_ID_COUNT');
-const otlpEndpoint = process.env('OTLP_ENDPOINT');
-const serviceName = process.env('SERVICE_NAME');
-const otelMetricExporterFrequency = process.env('OTLP_METRIC_EXPORTER_FREQUENCY');
-const otelMeterName = process.env('OTLP_METER_NAME');
-const environment = process.env('ENVIRONMENT');
+const workflowIDCount = parseInt(process.env.WORKFLOW_ID_COUNT);
+const customerIDCount = parseInt(process.env.CUSTOMER_ID_COUNT);
+const otlpEndpoint = process.env.OTLP_ENDPOINT;
+const serviceName = process.env.SERVICE_NAME;
+const otelMetricExporterFrequency = parseInt(process.env.OTLP_METRIC_EXPORTER_FREQUENCY);
+const otelMeterName = process.env.OTLP_METER_NAME;
+const environment = process.env.ENVIRONMENT;
 
 // Global variables
 // Toggle this number below to explode cardinality.
