@@ -12,7 +12,7 @@ const {
 } = require('@opentelemetry/semantic-conventions');
 const os = require('os');
 const {v4: uuidv4} = require('uuid');
-
+const metricPrefix = process.env.METRIC_PREFIX
 const workflowIDCount = parseInt(process.env.WORKFLOW_ID_COUNT);
 const customerIDCount = parseInt(process.env.CUSTOMER_ID_COUNT);
 const otlpEndpoint = process.env.OTLP_ENDPOINT;
@@ -49,19 +49,19 @@ meterProvider.addMetricReader(new PeriodicExportingMetricReader({
 const meter = meterProvider.getMeter(otelMeterName);
 
 // Create Observable Gauges
-const memoryUsageGauge = meter.createObservableGauge('memory_usage', {
+const memoryUsageGauge = meter.createObservableGauge(`${metricPrefix}_memory_usage`, {
   description: 'Tracks the memory usage of the application', valueType: ValueType.DOUBLE
 });
 
-const concurrencyGauge = meter.createObservableGauge('concurrency', {
+const concurrencyGauge = meter.createObservableGauge(`${metricPrefix}_concurrency`, {
   description: 'Current concurrency level', valueType: ValueType.INT
 });
 
-const cpuUsageGauge = meter.createObservableGauge('cpu_usage', {
+const cpuUsageGauge = meter.createObservableGauge(`${metricPrefix}_cpu_usage`, {
   description: 'CPU usage percentage', valueType: ValueType.DOUBLE
 });
 
-const runInTimeGauge = meter.createObservableGauge('run_in_time', {
+const runInTimeGauge = meter.createObservableGauge(`${metricPrefix}_run_time`, {
   description: 'Run time in seconds', valueType: ValueType.INT
 });
 
@@ -94,8 +94,8 @@ cpuUsageGauge.addCallback((observableResult) => {
 runInTimeGauge.addCallback((observableResult) => {
   workflowIDs.forEach(workflow_id => {
     customerIDs.forEach(customer_id => {
-      let run_in_time = Math.floor(Math.random() * 60);
-      observableResult.observe(run_in_time, {
+      let run_time = Math.floor(Math.random() * 60);
+      observableResult.observe(run_time, {
         ...attributes, 'workflow_id': workflow_id, 'customer_id': customer_id
       });
     });
