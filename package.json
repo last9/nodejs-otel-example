@@ -1,0 +1,21 @@
+{
+  "name": "nodejs-otel",
+  "version": "1.2.2",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "anik3tra0",
+  "license": "ISC",
+  "dependencies": {
+    "@opentelemetry/api": "^1.3.0",
+    "@opentelemetry/core": "1.19.0",
+    "@opentelemetry/exporter-metrics-otlp-proto": "0.46.0",
+    "@opentelemetry/resources": "1.19.0",
+    "@opentelemetry/sdk-metrics": "1.19.0",
+    "@opentelemetry/semantic-conventions": "1.19.0",
+    "uuid": "^9.0.1"
+  }
+}

@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    environment:
+      WORKFLOW_ID_COUNT: 100  # Adjust as needed
+      CUSTOMER_ID_COUNT: 40   # Adjust as needed
+      OTLP_ENDPOINT: 'http://localhost:8429/opentelemetry/api/v1/push'
+      SERVICE_NAME: 'custom-metric-service'
+      OTLP_METRIC_EXPORTER_FREQUENCY: 15000
+      OTLP_METER_NAME: 'cms-exporter-collector'
+      ENVIRONMENT: 'staging'
