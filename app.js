@@ -61,7 +61,7 @@ const cpuUsageGauge = meter.createObservableGauge(`${metricPrefix}_cpu_usage`, {
   description: 'CPU usage percentage', valueType: ValueType.DOUBLE
 });
 
-const runInTimeGauge = meter.createObservableGauge(`${metricPrefix}_run_time`, {
+const runTimeGauge = meter.createObservableGauge(`${metricPrefix}_run_time`, {
   description: 'Run time in seconds', valueType: ValueType.INT
 });
 
@@ -96,13 +96,13 @@ cpuUsageGauge.addCallback((observableResult) => {
 });
 
 
-runInTimeGauge.addCallback((observableResult) => {
+runTimeGauge.addCallback((observableResult) => {
   for (let i = 0; i < workflowIDs.length; i++) {
     const workflow_id = workflowIDs[i];
     for (let j = 0; j < customerIDs.length; j++) {
       const customer_id = customerIDs[j];
-      let run_time = Math.floor(Math.random() * 60);
-      observableResult.observe(run_time, {
+      let runTime = Math.floor(Math.random() * 60);
+      observableResult.observe(runTime, {
         ...attributes, 'workflow_id': workflow_id, 'customer_id': customer_id
       });
     }
