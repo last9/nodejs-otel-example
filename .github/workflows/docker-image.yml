@@ -1,0 +1,48 @@
+name: Publish docker image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    name: Build and publish docker image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Set IMAGE_TAG
+        run: |
+          VERSION=$(cat package.json | grep version | awk -F '\"' '{ print $4 }')
+          TS=$(date +'%d%m%y%H%M')
+          IMAGE_TAG="${VERSION}-${TS}"
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+
+      - name: Set up docker hub credentials
+        env:
+          LAST9_DOCKER_AUTH: ${{secrets.LAST9_DOCKER_AUTH}}
+        run: |
+          mkdir -p ~/.docker
+          cat > ~/.docker/config.json <<EOF
+            {
+              "auths": {
+                "docker-registry.last9.io": {
+                  "auth": "${LAST9_DOCKER_AUTH}"
+                }
+              }
+            }
+          EOF
+
+      - name: Build new docker image
+        run: |
+          docker build -t docker-registry.last9.io/last9-nodejs-otel-example/nodejs-otel:${IMAGE_TAG} .
+          docker build -t docker-registry.last9.io/last9-nodejs-otel-example/nodejs-otel:latest .
+
+      - name: Publish the new docker image to internal registry
+        run: |
+          docker login docker-registry.last9.io
+          docker push docker-registry.last9.io/last9-nodejs-otel-example/nodejs-otel:${IMAGE_TAG}
+          docker push docker-registry.last9.io/last9-nodejs-otel-example/nodejs-otel:latest
