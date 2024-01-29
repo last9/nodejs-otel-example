@@ -12,6 +12,8 @@ You can checkout these links to know
 - [How to setup vmagent](https://docs.last9.io/docs/levitate-integrations-vmagent)
 - [How to setup your Levitate cluster](https://docs.last9.io/docs/levitate-onboard)
 
+[![architecture](https://mermaid.ink/img/pako:eNptkcluAyEMhl8F-Zz2AThEapXeukidnCou1uBMiYalYFJFUd69ziz00HIAbD7_xvYF-mgJNBT6qhR62jkcMnoTlKyEmV3vEgZWr8Idy0NKCosycDPvj0WJw8Bf-uRxIDkndjH-457p5BiZZrBZ-273uOIt8d12uyhp1VGwyiKjqsWFQb0lCnsayRPn8xy3sBK1ymr1Tj6K_Hd2snNs6U2ADXjKHp2VZlxuCgb4U_QMaLlaOmAdpxKugmLl2J1DD5pzpQ3UJH9Zewf6gGNp3ifrOObmlLI_YvyFaHp-macwDeP6A9khjCg?type=png)](https://mermaid.live/edit#pako:eNptkcluAyEMhl8F-Zz2AThEapXeukidnCou1uBMiYalYFJFUd69ziz00HIAbD7_xvYF-mgJNBT6qhR62jkcMnoTlKyEmV3vEgZWr8Idy0NKCosycDPvj0WJw8Bf-uRxIDkndjH-457p5BiZZrBZ-273uOIt8d12uyhp1VGwyiKjqsWFQb0lCnsayRPn8xy3sBK1ymr1Tj6K_Hd2snNs6U2ADXjKHp2VZlxuCgb4U_QMaLlaOmAdpxKugmLl2J1DD5pzpQ3UJH9Zewf6gGNp3ifrOObmlLI_YvyFaHp-macwDeP6A9khjCg)
+
 ## Prerequisites
 
 You need a vmagent running that the underlying OTEL Exporter can write to.
