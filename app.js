@@ -70,47 +70,56 @@ const attributes = {pid: process.pid, environment: environment};
 
 // Callbacks for Observable Gauges
 concurrencyGauge.addCallback((observableResult) => {
-  workflowIDs.forEach(workflow_id => {
-    customerIDs.forEach(customer_id => {
+  for (let i = 0; i < workflowIDs.length; i++) {
+    const workflow_id = workflowIDs[i];
+    for (let j = 0; j < customerIDs.length; j++) {
+      const customer_id = customerIDs[j];
       let concurrency = Math.floor(Math.random() * 10) + 1;
       observableResult.observe(concurrency, {
         ...attributes, 'workflow_id': workflow_id, 'customer_id': customer_id
       });
-    });
-  });
+    }
+  }
 });
 
 cpuUsageGauge.addCallback((observableResult) => {
-  workflowIDs.forEach(workflow_id => {
-    customerIDs.forEach(customer_id => {
+  for (let i = 0; i < workflowIDs.length; i++) {
+    const workflow_id = workflowIDs[i];
+    for (let j = 0; j < customerIDs.length; j++) {
+      const customer_id = customerIDs[j];
       let cpuUsage = os.loadavg()[0]; // Load average for 1 minute; adjust as needed
       observableResult.observe(cpuUsage, {
         ...attributes, 'workflow_id': workflow_id, 'customer_id': customer_id
       });
-    });
-  });
+    }
+  }
 });
 
+
 runInTimeGauge.addCallback((observableResult) => {
-  workflowIDs.forEach(workflow_id => {
-    customerIDs.forEach(customer_id => {
+  for (let i = 0; i < workflowIDs.length; i++) {
+    const workflow_id = workflowIDs[i];
+    for (let j = 0; j < customerIDs.length; j++) {
+      const customer_id = customerIDs[j];
       let run_time = Math.floor(Math.random() * 60);
       observableResult.observe(run_time, {
         ...attributes, 'workflow_id': workflow_id, 'customer_id': customer_id
       });
-    });
-  });
+    }
+  }
 });
 
 memoryUsageGauge.addCallback((observableResult) => {
-  workflowIDs.forEach(workflow_id => {
-    customerIDs.forEach(customer_id => {
+  for (let i = 0; i < workflowIDs.length; i++) {
+    const workflow_id = workflowIDs[i];
+    for (let j = 0; j < customerIDs.length; j++) {
+      const customer_id = customerIDs[j];
       let usedMemory = process.memoryUsage().heapUsed / 1024 / 1024; // Convert bytes to megabytes
       observableResult.observe(usedMemory, {
         ...attributes, 'workflow_id': workflow_id, 'customer_id': customer_id, 'unit': 'MB'
       });
-    });
-  });
+    }
+  }
 });
 
 
