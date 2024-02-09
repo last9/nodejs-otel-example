@@ -1,6 +1,6 @@
 'use strict';
 
-const {DiagConsoleLogger, DiagLogLevel, ValueType, diag} = require('@opentelemetry/api');
+const {ValueType} = require('@opentelemetry/api');
 const {OTLPMetricExporter} = require('@opentelemetry/exporter-metrics-otlp-proto');
 
 const {
@@ -11,19 +11,17 @@ const {Resource} = require('@opentelemetry/resources');
 const {
   SemanticResourceAttributes,
 } = require('@opentelemetry/semantic-conventions');
-const os = require('os');
 const {v4: uuidv4} = require('uuid');
-const metricPrefix = process.env.METRIC_PREFIX
+const metricPrefix = process.env.METRIC_PREFIX || 'default';
 const otlpEndpoint = process.env.OTLP_ENDPOINT;
 const serviceName = process.env.SERVICE_NAME;
 const otelMetricExporterFrequency = parseInt(process.env.OTLP_METRIC_EXPORTER_FREQUENCY);
 const otelMeterName = process.env.OTLP_METER_NAME;
 const environment = process.env.ENVIRONMENT;
+
+// These are purely to simulate event based system and nothing to do with OTEL Instrumentation
 const EventEmitter = require('events');
 const myEmitter = new EventEmitter();
-
-// Optional and only needed to see the internal diagnostic logging (during development)
-// diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
 
 const metricExporter = new OTLPMetricExporter({
   url: otlpEndpoint
@@ -76,8 +74,8 @@ const requestCountCounter = meter.createCounter(
     });
 
 const requestHisto = meter.createHistogram(
-    `${metricPrefix}_http_requests_seconds`, {
-      description: 'Request Latency', valueType: ValueType.DOUBLE, unit: 'seconds'
+    `${metricPrefix}_http_requests_milliseconds`, {
+      description: 'Request Latency', valueType: ValueType.DOUBLE, unit: 'ms'
     }
 )
 
