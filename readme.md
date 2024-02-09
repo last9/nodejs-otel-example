@@ -1,11 +1,11 @@
-# Nodejs OTEL Instrumentation
+# Nodejs OTEL Instrumentation - Serverless
 
 ## Overview
 
-This Node.js application demonstrates the usage of OpenTelemetry to create and export metrics as observable gauges. It
-includes metrics for memory usage, concurrency, CPU usage, and run time, each associated with unique workflow and
-customer IDs. The OTEL Exporter is used to push metrics to a OTLP Endpoint which in this case is a vmagent which writes
-to Levitate.
+This Node.js application demonstrates the integration of OpenTelemetry for collecting and exporting metrics,
+specifically focusing on HTTP request metrics. It includes the creation of a custom geometric sequence for latency
+bucketing, counters for request counts, and histograms for request latencies. The application also simulates Cloudflare
+Worker fetch event triggers.
 
 You can checkout these links to know
 
@@ -16,15 +16,18 @@ You can checkout these links to know
 
 ## Prerequisites
 
-You need a vmagent running that the underlying OTEL Exporter can write to.
+- You need a vmagent running that the underlying OTEL Exporter can write to.
+- Node.js environment
+- Relevant environment variables set (METRIC_PREFIX, OTLP_ENDPOINT, SERVICE_NAME, OTLP_METRIC_EXPORTER_FREQUENCY,
+OTLP_METER_NAME, ENVIRONMENT)
 
 ## Features
 
-- **Memory Usage Gauge**: Tracks the application's memory usage in megabytes.
-- **Concurrency Gauge**: Monitors arbitrary concurrency levels within the application.
-- **CPU Usage Gauge**: Measures CPU usage as a percentage.
-- **Run Time Gauge**: Observes the run time in seconds.
-- **Workflow and Customer ID Attributes**: Each metric includes attributes for workflow and customer IDs.
+- **OpenTelemetry Metrics Integration**: Utilizes OpenTelemetry's metrics collection and OTLP (OpenTelemetry Protocol)
+  exporter for metric data.
+- **Custom Latency Buckets**: Generates latency buckets using a geometric sequence for detailed latency analysis.
+- **Metric Collection for HTTP Requests**: Collects metrics for HTTP request counts and latencies.
+- **Event-Driven Simulation**: Simulates Cloudflare Worker fetch events for testing and development purposes.
 
 ## Installation
 
@@ -52,18 +55,7 @@ $ node app.js
 ```
 
 ## Environment Variables
-
-### `WORKFLOW_ID_COUNT`
-
-- **Description**: This variable represents the count of workflow IDs.
-- **Type**: Integer
-- **Default Value**: 1000
-
-### `CUSTOMER_ID_COUNT`
-
-- **Description**: This variable represents the count of customer IDs.
-- **Type**: Integer
-- **Default Value**: 400
+Ensure these environment variables are set:
 
 ### `OTLP_ENDPOINT`
 
@@ -101,7 +93,12 @@ $ node app.js
 - **Type**: String
 - **Example Value**: `my_app`
 
-## Usage
+## Notes
+
+- This application is a simulation and primarily for demonstration and development purposes.
+- Adjust the parameters like export frequency and geometric sequence as per your requirements.
+- Ensure that your OTLP endpoint is correctly configured to receive and process the exported metrics.
+
 
 These environment variables are used to configure various aspects of our application. Please ensure that they are
 correctly set according to the requirements of your environment. You can set them in your deployment scripts,
@@ -129,16 +126,10 @@ will need to specify and configure additional meters accordingly._
   configuration.
 - The application generates a set number of workflow and customer IDs, which can be modified as needed.
 
-## Observable Gauges
+## Counters and Histos
 
-- **Memory Usage**: Captured using Node.js `process.memoryUsage()`.
-- **Concurrency**: A random value between 1 and 10.
-- **CPU Usage**: Obtained from `os.loadavg()`.
-- **Run Time**: A random value between 0 and 60 seconds.
-
-Each gauge is associated with unique `workflow_id` and `customer_id` attributes.
-
-Here's the updated section of the README that reflects the changes for Docker and Docker Compose setup:
+- **Request Count**: Captured everytime a request is received.
+- **Request Duration**: Captured everytime a request is processed.
 
 ---
 
