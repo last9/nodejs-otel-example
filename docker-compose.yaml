@@ -10,3 +10,18 @@ services:
       OTLP_METRIC_EXPORTER_FREQUENCY: 15000
       OTLP_METER_NAME: 'cms-exporter-collector'
       ENVIRONMENT: 'staging'
+  vmagent:
+    container_name: vmagent-otel-proxy
+    image: victoriametrics/vmagent
+    depends_on:
+      - app
+    ports:
+      - "8429:8429"
+    volumes:
+      - ./vmagentdata:/vmagentdata
+    command:
+      - "--remoteWrite.url=<authenticated_levitate_remote_write_url>"
+    restart: always
+    cpus: 0.5
+    logging:
+      driver: none
