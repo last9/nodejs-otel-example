@@ -16,6 +16,6 @@
     "@opentelemetry/resources": "1.19.0",
     "@opentelemetry/sdk-metrics": "1.19.0",
     "@opentelemetry/semantic-conventions": "1.19.0",
-    "uuid": "^9.0.1"
+    "uuid": "^14.0.0"
   }
 }
