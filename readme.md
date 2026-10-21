@@ -16,7 +16,8 @@ You can checkout these links to know
 
 ## Prerequisites
 
-You need a vmagent running that the underlying OTEL Exporter can write to.
+- Node.js 24 (the Docker image uses `node:24`).
+- A vmagent running that the underlying OTEL Exporter can write to.
 
 ## Features
 

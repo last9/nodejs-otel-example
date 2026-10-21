@@ -1,5 +1,6 @@
-# Use the official Node.js 18 image as a parent image
-FROM node:18
+# Use the official Node.js 24 (active LTS) image as a parent image.
+# Node 18 is end-of-life and will not receive TLS trust-store fixes.
+FROM node:24
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
