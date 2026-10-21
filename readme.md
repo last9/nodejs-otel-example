@@ -163,6 +163,13 @@ isolated across different environments.
    docker run -p 3000:3000 your-app-name
    ```
 
+3. **Check the image's TLS trust policy**:
+   ```bash
+   docker run --rm your-app-name npm run check:tls
+   ```
+   This passes only when the image's Node rejects the compromised eMudhra intermediates with `CERT_REVOKED` and still
+   connects to a normal HTTPS endpoint. Pull requests run it against a fresh build of the image.
+
 ### Using Docker Compose
 
 The application can also be run using Docker Compose, which simplifies the process of configuring and launching the
