@@ -12,7 +12,7 @@
   "author": "anik3tra0",
   "license": "ISC",
   "engines": {
-    "node": ">=24"
+    "node": "^24.22.1"
   },
   "dependencies": {
     "@opentelemetry/api": "^1.3.0",

@@ -19,7 +19,8 @@ function probe(url) {
   });
 }
 
-// The upstream SPKI blocklist (nodejs/node@d9a3f3d) reports CERT_REVOKED.
+// The upstream SPKI blocklist (nodejs/node#66871, first in 24.22.1 and 22.23.4)
+// reports CERT_REVOKED.
 // Accept only that code: DNS failures, timeouts or an unrelated chain error
 // would otherwise pass without proving the blocklist is present.
 const BLOCKLIST_ERROR_CODE = 'CERT_REVOKED';

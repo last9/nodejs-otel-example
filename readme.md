@@ -16,7 +16,8 @@ You can checkout these links to know
 
 ## Prerequisites
 
-- Node.js 24 (the Docker image uses `node:24`).
+- Node.js 24.22.1 or a later 24.x (the Docker image pins `node:24.22.1` by digest). Earlier releases accept the
+  compromised eMudhra intermediates.
 - A vmagent running that the underlying OTEL Exporter can write to.
 
 ## Features
@@ -168,7 +169,9 @@ isolated across different environments.
    docker run --rm your-app-name npm run check:tls
    ```
    This passes only when the image's Node rejects the compromised eMudhra intermediates with `CERT_REVOKED` and still
-   connects to a normal HTTPS endpoint. Pull requests run it against a fresh build of the image.
+   connects to a normal HTTPS endpoint. Pull requests run it against a fresh build of the image, together with
+   `npm run check:node-pin -- --runtime`, which asserts the image runs the Node release pinned in the `Dockerfile` and
+   `engines.node`. When bumping Node, update both pins (tag and digest) in the same change.
 
 ### Using Docker Compose
 
