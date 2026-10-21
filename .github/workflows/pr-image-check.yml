@@ -27,6 +27,9 @@ jobs:
           docker image inspect nodejs-otel:pr --format '{{.Id}}'
           docker run --rm nodejs-otel:pr node -p 'process.version + " openssl " + process.versions.openssl'
 
+      - name: Check the image runs the pinned Node release
+        run: docker run --rm nodejs-otel:pr npm run --silent check:node-pin -- --runtime
+
       - name: Smoke-run the app against a dead OTLP endpoint
         run: |
           docker run -d --name smoke \
