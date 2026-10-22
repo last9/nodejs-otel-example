@@ -1,0 +1,48 @@
+name: Validate docker image
+
+# Builds the release image from a clean cache on every pull request and checks
+# the Node runtime it ships, so a base-image change is proven before release
+# (issue #8). Uses no secrets and pushes nothing.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Build, smoke and TLS-check the image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Build image without cached layers
+        run: docker build --pull --no-cache -t nodejs-otel:pr .
+
+      - name: Record runtime versions
+        run: |
+          docker image inspect nodejs-otel:pr --format '{{.Id}}'
+          docker run --rm nodejs-otel:pr node -p 'process.version + " openssl " + process.versions.openssl'
+
+      - name: Check the image runs the pinned Node release
+        run: docker run --rm nodejs-otel:pr npm run --silent check:node-pin -- --runtime
+
+      - name: Smoke-run the app against a dead OTLP endpoint
+        run: |
+          docker run -d --name smoke \
+            -e WORKFLOW_ID_COUNT=2 -e CUSTOMER_ID_COUNT=2 \
+            -e OTLP_ENDPOINT=http://127.0.0.1:9/v1/metrics \
+            -e SERVICE_NAME=smoke -e OTLP_METER_NAME=smoke -e ENVIRONMENT=ci \
+            -e OTLP_METRIC_EXPORTER_FREQUENCY=1000 \
+            nodejs-otel:pr
+          sleep 10
+          docker logs smoke > smoke.log 2>&1
+          cat smoke.log
+          test "$(docker inspect -f '{{.State.Running}}' smoke)" = true
+          grep -q 'items to be sent' smoke.log
+
+      - name: Check TLS trust policy
+        run: docker run --rm nodejs-otel:pr npm run --silent check:tls
